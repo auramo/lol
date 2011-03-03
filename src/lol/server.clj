@@ -14,14 +14,17 @@
   (map (fn [pair] (- (first pair) (last pair))) (map list limits item)))
 
 (defn fill-knapsack
-;  ([items limits] (fill-knapsack items limits '()))
   [items limits knapsack]
-    (let [item (first items)
-          new-limits (subtract-from-limits limits item)]
-      (if (some #(% < 0) new-limits)
+  (let [item (first items)
+        new-limits (subtract-from-limits limits item)]
+      (if (some (fn [x] (< x 0)) new-limits)
         knapsack
-        (concat (fill-knapsack (rest items) limits knapsack) knapsack))))
+        (recur (rest items) new-limits (cons item knapsack)))))
 
+(defn countdown [items knapsack]
+  (if (empty? items)
+    knapsack
+    (recur (rest items) (cons (first items) knapsack))))
 
 (defn input-as-str [req]
   (slurp* (reader (:body req))))
