@@ -9,6 +9,20 @@
   [items]
   (sort-by #(% "value") items))
 
+(defn subtract-from-limits
+  [limits item]
+  (map (fn [pair] (- (first pair) (last pair))) (map list limits item)))
+
+(defn fill-knapsack
+  ([items limits] (fill-knapsack items limits '()))
+  ([items limits knapsack]
+    (let [item (first items)
+          new-limits (subtract-from-limits limits item)]
+      (if (some #(% < 0) new-limits)
+        knapsack
+        (concat (fill-knapsack (tail items)) knapsack)))))
+
+
 (defn input-as-str [req]
   (slurp* (reader (:body req))))
 
