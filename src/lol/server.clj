@@ -11,15 +11,14 @@
 (defn parse-json-str [json-str]
   (read-json json-str))
 
-;(defn encode-to-json-str [structure]
-;  (json-str structure))
+(defn encode-to-json-str [structure]
+  (json-str structure))
 
 (defn app [req]
   (println (type (read-json (input-as-str req))))
   {:status  200
    :headers {"Content-Type" "application/json"}
-   :body    "meh"})
-;   :body    (encode-to-json-str([1,2]))})
+   :body    (encode-to-json-str[1,2])})
 
 (defn -main
   []
