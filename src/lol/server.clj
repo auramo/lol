@@ -5,6 +5,10 @@
    [clojure.contrib.duck-streams])
   (:gen-class))
 
+(defn sort-by-value
+  [items]
+  (sort-by #(% "value") items))
+
 (defn input-as-str [req]
   (slurp* (reader (:body req))))
 
