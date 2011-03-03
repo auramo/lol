@@ -9,6 +9,10 @@
   [items]
   (sort-by #(:value %) items))
 
+(defn dimensions-of-item
+  [item]
+  (:weight item))
+   
 (defn substract-from-limits
   [limits item]
   (map (fn [pair] (- (first pair) (last pair))) (map list limits item)))
@@ -29,7 +33,6 @@
 
 (defn encode-to-json-str [structure]
   (json-str structure))
-
 
 (defn do-the-real-shit [json]
   (let [limits (:capacity json)
