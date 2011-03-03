@@ -14,13 +14,13 @@
   (map (fn [pair] (- (first pair) (last pair))) (map list limits item)))
 
 (defn fill-knapsack
-  ([items limits] (fill-knapsack items limits '()))
-  ([items limits knapsack]
+;  ([items limits] (fill-knapsack items limits '()))
+  [items limits knapsack]
     (let [item (first items)
           new-limits (subtract-from-limits limits item)]
       (if (some #(% < 0) new-limits)
         knapsack
-        (concat (fill-knapsack (tail items)) knapsack)))))
+        (concat (fill-knapsack (rest items) limits knapsack) knapsack))))
 
 
 (defn input-as-str [req]
@@ -32,11 +32,19 @@
 (defn encode-to-json-str [structure]
   (json-str structure))
 
+(defn do-shit
+  [req]
+  (let [json (read-json (input-as-str req))
+        limits (json "capacity")
+        items (json "contents")
+        sorted-items (sort-by-value items)]
+    (fill-knapsack sorted-items limits '())))
+
 (defn app [req]
-  (println (str (read-json (input-as-str req))))
+  (let [body (do-shit req)]
   {:status  200
    :headers {"Content-Type" "application/json"}
-   :body    (encode-to-json-str[1,2])})
+   :body    (encode-to-json-str (do-shit req))}))
 
 (defn -main
   []
