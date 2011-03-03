@@ -1,8 +1,8 @@
 (ns lol.server
   (:use
    [ring.adapter.jetty :only [run-jetty]]
-   [clojure.contrib.duck-streams]
-   [org.danlarkin.json])
+   [clojure.contrib.duck-streams :only [slurp* reader]])
+  (:require [org.danlarkin.json :as json])
   (:gen-class))
 
 (defn sort-by-value
@@ -29,10 +29,10 @@
   (slurp* (reader (:body req))))
 
 (defn parse-json-str [json-str]
-  (decode json-str))
+  (json/decode json-str))
 
 (defn encode-to-json-str [structure]
-  (encode structure))
+  (json/encode structure))
 
 (defn do-the-real-shit [json]
   (let [limits (:capacity json)

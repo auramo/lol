@@ -1,6 +1,5 @@
 (ns lol.server-test
   (:use [clojure.test]
-        [clojure.contrib.json]
         [lol.server]))
 
 (defn get-testdata [filename]
