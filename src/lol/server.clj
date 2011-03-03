@@ -39,7 +39,7 @@
 
 (defn do-shit
   [req]
-  (do-the-real-shit (read-json (input-as-str req))))
+  (do-the-real-shit (parse-json-str (input-as-str req))))
 
 (defn app [req]
   (let [body (do-shit req)]
