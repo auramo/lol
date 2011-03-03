@@ -32,7 +32,7 @@
   (decode json-str))
 
 (defn encode-to-json-str [structure]
-  (json-str structure))
+  (encode structure))
 
 (defn do-the-real-shit [json]
   (let [limits (:capacity json)
