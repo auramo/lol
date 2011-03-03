@@ -4,4 +4,5 @@
                  [ring/ring-jetty-adapter "0.3.6"]                 
                  [org.clojure/clojure-contrib "1.2.0"]
                  [org.danlarkin/clojure-json "1.2-SNAPSHOT"]]
+  :dev-dependencies [[swank-clojure "1.2.1"]]
   :main lol.server)
