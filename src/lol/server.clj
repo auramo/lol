@@ -5,9 +5,11 @@
    [clojure.contrib.duck-streams])
   (:gen-class))
 
+(defn input-as-str [req]
+  (slurp* (reader (:body req))))
+
 (defn app [req]
-  (println (slurp* (reader (:body req))))
-;  (read-json (:body req))
+  (println (input-as-str req))
   {:status  200
    :headers {"Content-Type" "application/json"}
    :body    "meh"})
