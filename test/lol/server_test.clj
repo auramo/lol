@@ -14,11 +14,11 @@
          '(5))))
 
 (deftest test-substract-from-limits
-  (is (= (substract-from-limits '(4) '(9))
+  (is (= (substract-from-limits '(4) {:weight [9]})
          '(-5)))
-  (is (= (substract-from-limits '(20 19) '(11 4))
+  (is (= (substract-from-limits '(20 19) {:weight [11 4]})
          '(9 15)))
-  (is (= (substract-from-limits '(20 34 19) '(5 3 12))
+  (is (= (substract-from-limits '(20 34 19) {:weight [5 3 12]})
          '(15 31 7))))
 
 (deftest test-parse-json-str
