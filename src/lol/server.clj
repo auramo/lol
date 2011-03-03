@@ -15,7 +15,7 @@
   (json-str structure))
 
 (defn app [req]
-  (println (type (read-json (input-as-str req))))
+  (println (str (read-json (input-as-str req))))
   {:status  200
    :headers {"Content-Type" "application/json"}
    :body    (encode-to-json-str[1,2])})
