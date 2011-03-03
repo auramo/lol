@@ -30,13 +30,16 @@
 (defn encode-to-json-str [structure]
   (json-str structure))
 
-(defn do-shit
-  [req]
-  (let [json (read-json (input-as-str req))
-        limits (json "capacity")
-        items (json "contents")
+
+(defn do-the-real-shit [json]
+  (let [limits (:capacity json)
+        items (:contents json)
         sorted-items (sort-by-value items)]
     (fill-knapsack sorted-items limits '())))
+
+(defn do-shit
+  [req]
+  (do-the-real-shit (read-json (input-as-str req))))
 
 (defn app [req]
   (let [body (do-shit req)]
