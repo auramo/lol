@@ -15,7 +15,7 @@
    
 (defn substract-from-limits
   [limits item]
-  (map (fn [pair] (- (first pair) (last pair))) (map list limits item)))
+  (map (fn [pair] (- (first pair) (last pair))) (map list limits (dimensions-of-item item))))
 
 (defn fill-knapsack
   [items limits knapsack]
