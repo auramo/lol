@@ -11,3 +11,11 @@
 
 (deftest test-fill-knapsack
   (do-the-real-shit (get-testdata "dataset1.json")))
+
+(deftest test-substract-from-limits
+  (is (= (substract-from-limits '(4) '(9))
+         '(-5)))
+  (is (= (substract-from-limits '(20 19) '(11 4))
+         '(9 15)))
+  (is (= (substract-from-limits '(20 34 19) '(5 3 12))
+         '(15 31 7))))
