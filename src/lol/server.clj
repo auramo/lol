@@ -7,7 +7,7 @@
 
 (defn sort-by-value
   [items]
-  (sort-by #(% "value") items))
+  (sort-by #(:value %) items))
 
 (defn subtract-from-limits
   [limits item]
@@ -20,11 +20,6 @@
       (if (some (fn [x] (< x 0)) new-limits)
         knapsack
         (recur (rest items) new-limits (cons item knapsack)))))
-
-(defn countdown [items knapsack]
-  (if (empty? items)
-    knapsack
-    (recur (rest items) (cons (first items) knapsack))))
 
 (defn input-as-str [req]
   (slurp* (reader (:body req))))
