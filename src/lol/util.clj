@@ -38,5 +38,5 @@
 
 (defn run-rounds
   []
-  (let [files '("round-config.json" "round2-config.json")]
+  (let [files (map #(str "round" % "-config.json") '(1 2 3 4 5))]
     (map #(run-challenges %) files)))
