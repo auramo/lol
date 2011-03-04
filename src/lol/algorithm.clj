@@ -53,12 +53,38 @@
            (recur (rest items) limits knapsack)
            (recur (rest items) new-limits (cons item knapsack)))))))
   
-
 ;; dimensioiden erot itseisarvo (weight[0] - limit[0]) /arvo -> mahd
 ;; pieni ekaks
 ;; jaetaan arvot
 (defn knapsack-algorithm2 [items limits]
   (algo2-impl (sort-by-magic-ratio items limits) limits))
+
+;;Stuff for algorithm 3
+
+(defn get-magic-value3 [item limits]
+  (let [dimensions (dimensions-of-item item)
+        value (:value item)]
+      (- 0 (/ (reduce * dimensions) value))))
+
+(defn sort-by-magic-ratio3 [items, limits]
+  (sort-by #(get-magic-value3 % limits) items))
+
+;; Yeah, pretty much copypaste from fill-knapsack -> maybe refactoring
+;; needed later...
+(defn algo3-impl
+  ([items limits] (algo3-impl items limits []))
+  ([items limits knapsack]
+     (if (empty? items)
+       knapsack
+       (let [item (first items)
+             new-limits (substract-from-limits item limits)]
+         (if (some (fn [x] (< x 0)) new-limits)
+           (recur (rest items) limits knapsack)
+           (recur (rest items) new-limits (cons item knapsack)))))))
+  
+(defn knapsack-algorithm3 [items limits]
+  (algo3-impl (sort-by-magic-ratio3 items limits) limits))
+
 
 (defn items-to-id-list
   [items]

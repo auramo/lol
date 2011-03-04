@@ -24,7 +24,7 @@
 (defn handle-request
   [req]
   (let [json (parse-json-str (input-as-str req))
-        items (run-algorithm knapsack-algorithm2 json)]
+        items (run-algorithm knapsack-algorithm3 json)]
     (items-to-id-list items)))
 
 (defn app [req]
