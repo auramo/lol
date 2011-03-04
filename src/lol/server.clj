@@ -36,13 +36,13 @@
 (defn app [req]
   (if (= "/test" (:uri req))
     (let [body (results-as-string (run-rounds))]
-      (clear-knapsack)
+      (await (clear-knapsack))
       {:status  200
        :headers {"Content-Type" "text/plain"}
        :body    body})
     (let [json (parse-json-str (input-as-str req))
           body (encode-to-json-str (items-to-id-list (run-algorithm greedy-algorithm json)))]
-      (clear-knapsack)
+      (await (clear-knapsack))
       {:status  200
        :headers {"Content-Type" "application/json"}
        :body    body})))
