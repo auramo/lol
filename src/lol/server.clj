@@ -23,8 +23,9 @@
   [algorithm json]
   (let [limits (:capacity json)
         items (:contents json)
+        timeout (:timeout json)
         worker (calculate algorithm items limits)]
-    (await worker))
+    (await-for (- timeout 2000) worker))
   @knapsack)
 
 (defn app
