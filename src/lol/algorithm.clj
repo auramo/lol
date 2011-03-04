@@ -39,7 +39,7 @@
       (/ magic-value value)))
 
 (defn sort-by-magic-ratio [items, limits]
-  (sort-by #(magic-predicate % limits) limits))
+  (sort-by #(magic-predicate % limits) items))
 
 ;; Yeah, pretty much copypaste from fill-knapsack -> maybe refactoring
 ;; needed later...
