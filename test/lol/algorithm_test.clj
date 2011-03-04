@@ -48,4 +48,5 @@
         limits [3]]
     (is (= 2 (get-magic-weight dimensions limits)))))
 
-  
+(deftest test-get-magic-value
+  (is (= 3/25 (get-magic-value {:weight [1 8 12] :value 50} [3 5 13]))))
