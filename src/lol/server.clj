@@ -32,10 +32,10 @@
   [req]
   (let [json (parse-json-str (input-as-str req))
         body (encode-to-json-str (items-to-id-list (run-algorithm greedy-algorithm json)))]
-  {:status  200
-   :headers {"Content-Type" "application/json"}
-   :body    body}))
-
+    (clear-knapsack)
+    {:status  200
+     :headers {"Content-Type" "application/json"}
+     :body    body}))
 
 (defn -main
   ([] (-main 9000))

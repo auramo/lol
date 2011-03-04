@@ -2,6 +2,10 @@
 
 (def knapsack (agent []))
 
+(defn clear-knapsack
+  []
+  (send knapsack (fn [x] [])))
+
 (defn knapsack-value
   [items]
   (reduce #(+ %1 (:value %2)) 0 items))
