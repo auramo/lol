@@ -2,7 +2,7 @@
 
 (defn sort-by-value
   [items]
-  (sort-by #(:value %) items))
+  (sort-by (fn [x] (- 0 (:value x))) items))
 
 (defn dimensions-of-item
   [item]

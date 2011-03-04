@@ -3,7 +3,7 @@
         [lol.algorithm]))
 
 (deftest test-sort-by-value
-  (is (= [ {:value 1} {:value 2} {:value 4} {:value 48}  ]  (sort-by-value [ {:value 4} {:value 2} {:value 48} {:value 1} ]))))
+  (is (= [ {:value 48} {:value 4} {:value 2} {:value 1}  ]  (sort-by-value [ {:value 4} {:value 2} {:value 48} {:value 1} ]))))
 
 (deftest test-dimensions-of-item
   (is (= (dimensions-of-item {:id "1" :weight [5] :value 593})
