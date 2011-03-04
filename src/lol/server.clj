@@ -15,20 +15,20 @@
 (defn encode-to-json-str [structure]
   (json/encode structure))
 
-(defn do-the-real-shit [json]
+(defn run-algorithm [json]
   (let [limits (:capacity json)
         items (:contents json)
         sorted-items (sort-by-value items)]
     (fill-knapsack sorted-items limits [])))
 
-(defn do-shit
+(defn handle-request
   [req]
   (let [json (parse-json-str (input-as-str req))
-        items (do-the-real-shit json)]
+        items (run-algorithm json)]
     (items-to-id-list items)))
 
 (defn app [req]
-  (let [body (encode-to-json-str (do-shit req))]
+  (let [body (encode-to-json-str (handle-request req))]
   {:status  200
    :headers {"Content-Type" "application/json"}
    :body    body}))
