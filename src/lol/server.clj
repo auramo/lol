@@ -33,6 +33,8 @@
    :headers {"Content-Type" "application/json"}
    :body    body}))
 
+
 (defn -main
-  []
-  (run-jetty app {:port 8080}))
+  ([] (-main 8080))
+  ([port]
+  (run-jetty app {:port (Integer. port)})))
