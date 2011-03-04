@@ -9,16 +9,21 @@
 
 (defn summed-weight
   [items]
-  (map (fn [i] (reduce + i)) (map #(flatten %) (reduce (fn [left right] (map list left right)) (map weight-of-item items)))))
-
-(summed-weight [{:weight [1 2 3]} {:weight [4 2 4]}])
+  (map
+   (fn [i] (reduce + i))
+   (map
+    #(flatten %)
+    (reduce
+     (fn [left right] (map list left right))
+     (map #(weight-of-item %) items)))))
 
 (defn run-one-challenge 
   [round challenge]
   (let [items (:contents challenge)
         result (run-algorithm knapsack-algorithm1 challenge)
-        value (reduce + (map #(:value %) result))]
-    (str round ": " (:name challenge) " value: " value)))
+        value (reduce + (map #(:value %) result))
+        weight (summed-weight result)]
+    (str round ": " (:name challenge) " value: [" value "] weight: [" (reduce (fn [a b] (str a ", " b)) weight) "]")))
 
 (defn run-challenges
   [file]
