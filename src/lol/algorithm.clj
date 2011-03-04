@@ -12,6 +12,7 @@
   [item limits]
   (map (fn [pair] (- (first pair) (last pair))) (map list limits (dimensions-of-item item))))
 
+
 (defn fill-knapsack
   ([items limits] (fill-knapsack items limits []))
   ([items limits knapsack]
@@ -22,6 +23,10 @@
          (if (some (fn [x] (< x 0)) new-limits)
            (recur (rest items) limits knapsack)
            (recur (rest items) new-limits (cons item knapsack)))))))
+
+;; Algo-interface looks like this always: <algoname> items limits
+(defn knapsack-algorithm1 [items limits]
+  (fill-knapsack (sort-by-value items) limits))
 
 (defn items-to-id-list
   [items]

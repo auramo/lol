@@ -15,16 +15,15 @@
 (defn encode-to-json-str [structure]
   (json/encode structure))
 
-(defn run-algorithm [json]
+(defn run-algorithm [algorithm json]
   (let [limits (:capacity json)
-        items (:contents json)
-        sorted-items (sort-by-value items)]
-    (fill-knapsack sorted-items limits)))
+        items (:contents json)]
+    (algorithm items limits)))
 
 (defn handle-request
   [req]
   (let [json (parse-json-str (input-as-str req))
-        items (run-algorithm json)]
+        items (run-algorithm knapsack-algorithm1 json)]
     (items-to-id-list items)))
 
 (defn app [req]
