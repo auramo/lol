@@ -21,7 +21,7 @@
   [items limits knapsack]
   (let [item (first items)
         new-limits (substract-from-limits limits item)]
-      (if (some (fn [x] (< x 0)) new-limits)
+      (if (or (some (fn [x] (< x 0)) new-limits) (empty? items))
         knapsack
         (recur (rest items) new-limits (cons item knapsack)))))
 
@@ -38,17 +38,17 @@
   (let [limits (:capacity json)
         items (:contents json)
         sorted-items (sort-by-value items)]
-    (fill-knapsack sorted-items limits '())))
+    (fill-knapsack sorted-items limits [])))
 
 (defn do-shit
   [req]
   (do-the-real-shit (parse-json-str (input-as-str req))))
 
 (defn app [req]
-  (let [body (do-shit req)]
+  (let [body (encode-to-json-str (do-shit req))]
   {:status  200
    :headers {"Content-Type" "application/json"}
-   :body    (encode-to-json-str (do-shit req))}))
+   :body    body}))
 
 (defn -main
   []
