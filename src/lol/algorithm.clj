@@ -30,7 +30,7 @@
 ;;Stuff for algorithm 2
 
 (defn get-magic-weight [dimensions limits]
-  (map #(abs (- (first %) (last %))) (map list dimensions limits)))
+  (reduce + (map #(abs (- (first %) (last %))) (map list dimensions limits))))
 
 (defn magic-predicate [item limits]
   (let [dimensions (dimensions-of-item item)
