@@ -1,29 +1,10 @@
 (ns lol.server
   (:use
    [ring.adapter.jetty :only [run-jetty]]
-   [clojure.contrib.duck-streams :only [slurp* reader]])
+   [clojure.contrib.duck-streams :only [slurp* reader]]
+   [lol.algorithm])
   (:require [org.danlarkin.json :as json])
   (:gen-class))
-
-(defn sort-by-value
-  [items]
-  (sort-by #(:value %) items))
-
-(defn dimensions-of-item
-  [item]
-  (:weight item))
-   
-(defn substract-from-limits
-  [limits item]
-  (map (fn [pair] (- (first pair) (last pair))) (map list limits (dimensions-of-item item))))
-
-(defn fill-knapsack
-  [items limits knapsack]
-  (let [item (first items)
-        new-limits (substract-from-limits limits item)]
-      (if (or (some (fn [x] (< x 0)) new-limits) (empty? items))
-        knapsack
-        (recur (rest items) new-limits (cons item knapsack)))))
 
 (defn input-as-str [req]
   (slurp* (reader (:body req))))
