@@ -15,13 +15,14 @@
 (defn fill-knapsack
   ([items limits] (fill-knapsack items limits []))
   ([items limits knapsack]
-  (let [item (first items)
-        new-limits (substract-from-limits limits item)]
-      (if (or (some #(< % 0) new-limits) (empty? items))
-        knapsack
-        (recur (rest items) new-limits (cons item knapsack))))))
+     (if (empty? items)
+       knapsack
+       (let [item (first items)
+             new-limits (substract-from-limits limits item)]
+         (if (some (fn [x] (< x 0)) new-limits)
+           (recur (rest items) limits knapsack)
+           (recur (rest items) new-limits (cons item knapsack)))))))
 
 (defn items-to-id-list
   [items]
   (map #(:id %) items))
-
