@@ -35,6 +35,6 @@
 
 
 (defn -main
-  ([] (-main 8080))
+  ([] (-main 9000))
   ([port]
   (run-jetty app {:port (Integer. port)})))
