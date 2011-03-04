@@ -17,13 +17,18 @@
      (fn [left right] (map list left right))
      (map #(weight-of-item %) items)))))
 
+(defn result-str
+  [round challenge value weight limits]
+  (str round ": " (:name challenge)  " value: [" value "] weight: [" (reduce (fn [a b] (str a ", " b)) weight) "]" " limits: " limits))
+
 (defn run-one-challenge 
   [round challenge]
   (let [items (:contents challenge)
+        limits (:capacity challenge)
         result (run-algorithm greedy-algorithm challenge)
         value (reduce + (map #(:value %) result))
         weight (summed-weight result)]
-    (str round ": " (:name challenge) " value: [" value "] weight: [" (reduce (fn [a b] (str a ", " b)) weight) "]")))
+    (result-str round challenge value weight limits)))
 
 (defn run-challenges
   [file]
@@ -32,8 +37,9 @@
         challenges (:challenges json-data)]
     (map #(run-one-challenge round %) challenges)))
 
-(let [files '("round-config.json" "round2-config.json")]
-  (map #(run-challenges %) files))
-      
-      
+(defn run-rounds
+  []
+  (let [files '("round-config.json" "round2-config.json")]
+    (map #(run-challenges %) files)))
 
+(run-rounds)
