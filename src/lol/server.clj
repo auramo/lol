@@ -19,7 +19,7 @@
   (let [limits (:capacity json)
         items (:contents json)
         sorted-items (sort-by-value items)]
-    (fill-knapsack sorted-items limits [])))
+    (fill-knapsack sorted-items limits)))
 
 (defn handle-request
   [req]
