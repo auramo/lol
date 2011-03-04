@@ -4,7 +4,7 @@
 
 (defn knapsack-value
   [items]
-  (reduce #(+ %1 (:value %2))  0 items))
+  (reduce #(+ %1 (:value %2)) 0 items))
 
 (defn max-knapsack
   [current candidate]
@@ -18,8 +18,6 @@
 
 (defn calculate
   [algorithm items limits]
-  (let [thread (agent [])]
-    (send thread (fn [x] (algorithm items limits)))
-    (await thread)
-    @thread))
+  (let [worker (agent [])]
+    (send worker (fn [x] (update-knapsack (algorithm items limits))))))
 

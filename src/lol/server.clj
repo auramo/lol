@@ -7,28 +7,30 @@
   (:require [org.danlarkin.json :as json])
   (:gen-class))
 
-(defn input-as-str [req]
+(defn input-as-str
+  [req]
   (slurp* (reader (:body req))))
 
-(defn parse-json-str [json-str]
+(defn parse-json-str
+  [json-str]
   (json/decode json-str))
 
-(defn encode-to-json-str [structure]
+(defn encode-to-json-str
+  [structure]
   (json/encode structure))
 
-(defn run-algorithm [algorithm json]
+(defn run-algorithm
+  [algorithm json]
   (let [limits (:capacity json)
-        items (:contents json)]
-    (algorithm items limits)))
+        items (:contents json)
+        worker (calculate algorithm items limits)]
+    (await worker))
+  @knapsack)
 
-(defn handle-request
+(defn app
   [req]
   (let [json (parse-json-str (input-as-str req))
-        items (run-algorithm greedy-algorithm json)]
-    (items-to-id-list items)))
-
-(defn app [req]
-  (let [body (encode-to-json-str (handle-request req))]
+        body (encode-to-json-str (items-to-id-list (run-algorithm greedy-algorithm json)))]
   {:status  200
    :headers {"Content-Type" "application/json"}
    :body    body}))
