@@ -64,7 +64,7 @@
 (defn get-magic-value3 [item limits]
   (let [dimensions (dimensions-of-item item)
         value (:value item)]
-      (- 0 (/ (reduce * dimensions) value))))
+      (/ (reduce * dimensions) value)))
 
 (defn sort-by-magic-ratio3 [items, limits]
   (sort-by #(get-magic-value3 % limits) items))
