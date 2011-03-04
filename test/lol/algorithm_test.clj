@@ -2,9 +2,6 @@
   (:use [clojure.test]
         [lol.algorithm]))
 
-(deftest test-sort-by-value
-  (is (= [ {:value 48} {:value 4} {:value 2} {:value 1}  ]  (sort-by-value [ {:value 4} {:value 2} {:value 48} {:value 1} ]))))
-
 (deftest test-dimensions-of-item
   (is (= (dimensions-of-item {:id "1" :weight [5] :value 593})
          '(5))))
@@ -38,15 +35,15 @@
   (let [items [{:id "3"} {:id "12"} {:id "57"} {:id "1"}]]
     (is (= ["3" "12", "57" "1"] (items-to-id-list items)))))
 
-(deftest test-get-magic-weight-three-dims
-  (let [dimensions [1 8 12]
-        limits [3 5 13]]
-    (is (= 6 (get-magic-weight dimensions limits)))))
+(deftest test-relative-value
+  (is (= 2/15 (relative-value {:weight [23 44 8] :value 10})))
+  (is (= 93/10 (relative-value {:id "3" :weight [5 5] :value 93})))
+  (is (= 53/10 (relative-value {:id "2" :weight [5 5] :value 53})))
+  (is (= 3/10 (relative-value {:id "1" :weight [5 5] :value 3}))))
 
-(deftest test-get-magic-weight-one-dim
-  (let [dimensions [1]
-        limits [3]]
-    (is (= 2 (get-magic-weight dimensions limits)))))
-
-(deftest test-get-magic-value
-  (is (= 3/25 (get-magic-value {:weight [1 8 12] :value 50} [3 5 13]))))
+(deftest test-sort-by-relative-value
+  (let [item1 {:id "1" :weight [5 5] :value 3}
+        item2 {:id "2" :weight [5 5] :value 53}
+        item3 {:id "3" :weight [5 5] :value 93}
+        items [item1 item2 item3]]
+    (is (= [item3 item2 item1] (sort-by-relative-value items)))))

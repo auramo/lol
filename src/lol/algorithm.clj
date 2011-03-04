@@ -1,9 +1,5 @@
 (ns lol.algorithm (:use [clojure.contrib.math]))
 
-(defn sort-by-value
-  [items]
-  (sort-by #(- 0 (:value %)) items))
-
 (defn dimensions-of-item
   [item]
   (:weight item))
@@ -23,68 +19,20 @@
            (recur (rest items) limits knapsack)
            (recur (rest items) new-limits (cons item knapsack)))))))
 
-;; Algo-interface looks like this always: <algoname> items limits
-(defn knapsack-algorithm1 [items limits]
-  (fill-knapsack (sort-by-value items) limits))
-
-;;Stuff for algorithm 2
-(defn get-magic-weight [dimensions limits]
-  (reduce + (map #(abs (- (first %) (last %))) (map list dimensions limits))))
-
-(defn get-magic-value [item limits]
+(defn relative-value
+  [item]
   (let [dimensions (dimensions-of-item item)
-        value (:value item)
-        magic-value (get-magic-weight dimensions limits)]
-      (/ magic-value value)))
-
-(defn sort-by-magic-ratio [items, limits]
-  (sort-by #(get-magic-value % limits) items))
-
-;; Yeah, pretty much copypaste from fill-knapsack -> maybe refactoring
-;; needed later...
-(defn algo2-impl
-  ([items limits] (algo2-impl items limits []))
-  ([items limits knapsack]
-     (if (empty? items)
-       knapsack
-       (let [item (first items)
-             new-limits (substract-from-limits item limits)]
-         (if (some (fn [x] (< x 0)) new-limits)
-           (recur (rest items) limits knapsack)
-           (recur (rest items) new-limits (cons item knapsack)))))))
-  
-;; dimensioiden erot itseisarvo (weight[0] - limit[0]) /arvo -> mahd
-;; pieni ekaks
-;; jaetaan arvot
-(defn knapsack-algorithm2 [items limits]
-  (algo2-impl (sort-by-magic-ratio items limits) limits))
-
-;;Stuff for algorithm 3
-
-(defn get-magic-value3 [item limits]
-  (let [dimensions (dimensions-of-item item)
+        dimsum (reduce #(+ %1 %2) dimensions)
         value (:value item)]
-      (/ (reduce * dimensions) value)))
+    (/ value dimsum)))
 
-(defn sort-by-magic-ratio3 [items, limits]
-  (sort-by #(get-magic-value3 % limits) items))
+(defn sort-by-relative-value
+  [items]
+  (reverse (sort-by #(relative-value %) items)))
 
-;; Yeah, pretty much copypaste from fill-knapsack -> maybe refactoring
-;; needed later...
-(defn algo3-impl
-  ([items limits] (algo3-impl items limits []))
-  ([items limits knapsack]
-     (if (empty? items)
-       knapsack
-       (let [item (first items)
-             new-limits (substract-from-limits item limits)]
-         (if (some (fn [x] (< x 0)) new-limits)
-           (recur (rest items) limits knapsack)
-           (recur (rest items) new-limits (cons item knapsack)))))))
-  
-(defn knapsack-algorithm3 [items limits]
-  (algo3-impl (sort-by-magic-ratio3 items limits) limits))
-
+(defn greedy-algorithm
+  [items limits]
+  (fill-knapsack (sort-by-relative-value items) limits))
 
 (defn items-to-id-list
   [items]
