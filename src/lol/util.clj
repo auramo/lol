@@ -1,6 +1,5 @@
-(ns lol.client
-  (:use [lol.server]
-        [lol.algorithm])
+(ns lol.util
+  (:use [lol.algorithm])
   (:require [org.danlarkin.json :as json]))
 
 (defn weight-of-item
@@ -25,7 +24,7 @@
   [round challenge]
   (let [items (:contents challenge)
         limits (:capacity challenge)
-        result (run-algorithm greedy-algorithm challenge)
+        result (greedy-algorithm items limits)
         value (reduce + (map #(:value %) result))
         weight (summed-weight result)]
     (result-str round challenge value weight limits)))
@@ -39,7 +38,5 @@
 
 (defn run-rounds
   []
-  (let [files '("round-config.json" "round2-config.json")]
+  (let [files (map #(str "round" % "-config.json") '(1 2 3 4 5))]
     (map #(run-challenges %) files)))
-
-(run-rounds)
