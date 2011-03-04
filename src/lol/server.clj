@@ -1,8 +1,9 @@
 (ns lol.server
   (:use
-   [ring.adapter.jetty :only [run-jetty]]
-   [clojure.contrib.duck-streams :only [slurp* reader]]
-   [lol.algorithm])
+    [ring.adapter.jetty :only [run-jetty]]
+    [clojure.contrib.duck-streams :only [slurp* reader]]
+    [lol.algorithm]
+    [lol.agent])
   (:require [org.danlarkin.json :as json])
   (:gen-class))
 
