@@ -28,18 +28,17 @@
   (fill-knapsack (sort-by-value items) limits))
 
 ;;Stuff for algorithm 2
-
 (defn get-magic-weight [dimensions limits]
   (reduce + (map #(abs (- (first %) (last %))) (map list dimensions limits))))
 
-(defn magic-predicate [item limits]
+(defn get-magic-value [item limits]
   (let [dimensions (dimensions-of-item item)
         value (:value item)
         magic-value (get-magic-weight dimensions limits)]
       (/ magic-value value)))
 
 (defn sort-by-magic-ratio [items, limits]
-  (sort-by #(magic-predicate % limits) limits))
+  (sort-by #(get-magic-value % limits) items))
 
 ;; Yeah, pretty much copypaste from fill-knapsack -> maybe refactoring
 ;; needed later...

@@ -38,9 +38,14 @@
   (let [items [{:id "3"} {:id "12"} {:id "57"} {:id "1"}]]
     (is (= ["3" "12", "57" "1"] (items-to-id-list items)))))
 
-;; (deftest test-get-magic-weight-three-dims
-;;   (let [dimensions [1,8,12]
-;;         limits [3 5 13]]
-;;     (println "huhuu")
-;;     (println get-magic-weight dimensions limits)
-;;     (is (= 6 get-magic-weight dimensions limits))))
+(deftest test-get-magic-weight-three-dims
+  (let [dimensions [1 8 12]
+        limits [3 5 13]]
+    (is (= 6 (get-magic-weight dimensions limits)))))
+
+(deftest test-get-magic-weight-one-dim
+  (let [dimensions [1]
+        limits [3]]
+    (is (= 2 (get-magic-weight dimensions limits)))))
+
+  
