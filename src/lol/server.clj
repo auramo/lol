@@ -23,7 +23,9 @@
 
 (defn do-shit
   [req]
-  (do-the-real-shit (parse-json-str (input-as-str req))))
+  (let [json (parse-json-str (input-as-str req))
+        items (do-the-real-shit json)]
+    (items-to-id-list items)))
 
 (defn app [req]
   (let [body (encode-to-json-str (do-shit req))]

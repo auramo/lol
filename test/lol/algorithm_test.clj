@@ -21,3 +21,7 @@
   (let [items [{:id "1" :weight [642, 452] :value 593},{:id "2" :weight [62, 152] :value 93}]
         limits [700 500]]
     (is (= [{:id "1" :weight [642, 452] :value 593}] (fill-knapsack items limits)))))
+
+(deftest test-items-to-id-list
+  (let [items [{:id "3"} {:id "12"} {:id "57"} {:id "1"}]]
+    (is (= ["3" "12", "57" "1"] (items-to-id-list items)))))

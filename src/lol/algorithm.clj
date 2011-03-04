@@ -21,4 +21,7 @@
         knapsack
         (recur (rest items) new-limits (cons item knapsack))))))
 
+(defn items-to-id-list
+  [items]
+  (map #(:id %) items))
 
