@@ -16,3 +16,8 @@
          '(9 15)))
   (is (= (substract-from-limits '(20 34 19) {:weight [5 3 12]})
          '(15 31 7))))
+
+(deftest test-fill-knapsack
+  (let [items [{:id "1" :weight [642, 452] :value 593},{:id "2" :weight [62, 152] :value 93}]
+        limits [700 500]]
+    (is (= [{:id "1" :weight [642, 452] :value 593}] (fill-knapsack items limits)))))
