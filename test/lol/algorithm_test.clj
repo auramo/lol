@@ -10,11 +10,11 @@
          '(5))))
 
 (deftest test-substract-from-limits
-  (is (= (substract-from-limits '(4) {:weight [9]})
+  (is (= (substract-from-limits {:weight [9]} '(4))
          '(-5)))
-  (is (= (substract-from-limits '(20 19) {:weight [11 4]})
+  (is (= (substract-from-limits {:weight [11 4]} '(20 19))
          '(9 15)))
-  (is (= (substract-from-limits '(20 34 19) {:weight [5 3 12]})
+  (is (= (substract-from-limits {:weight [5 3 12]} '(20 34 19))
          '(15 31 7))))
 
 (deftest test-fill-knapsack

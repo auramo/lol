@@ -9,7 +9,7 @@
   (:weight item))
 
 (defn substract-from-limits
-  [limits item]
+  [item limits]
   (map (fn [pair] (- (first pair) (last pair))) (map list limits (dimensions-of-item item))))
 
 (defn fill-knapsack
@@ -18,7 +18,7 @@
      (if (empty? items)
        knapsack
        (let [item (first items)
-             new-limits (substract-from-limits limits item)]
+             new-limits (substract-from-limits item limits)]
          (if (some (fn [x] (< x 0)) new-limits)
            (recur (rest items) limits knapsack)
            (recur (rest items) new-limits (cons item knapsack)))))))
