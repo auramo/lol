@@ -27,20 +27,17 @@
 
 (defn objective
   [mapsack move]
-  (let [new-mapsack (move mapsack)]
-    (if (> (mapsack-value new-mapsack)
-           (mapsack-value mapsack))
-      1
-      0)))
+  (let [new-mapsack (move mapsack)
+        value (mapsack-value mapsack)
+        new-value (mapsack-value new-mapsack)]
+    (- new-value value)))    
 
 (defn penalty
   [mapsack limits move]
   (let [new-mapsack (move mapsack)
-        weight (mapsack-weight new-mapsack)
-        new-weight (substract-from-dimensions weight limits)]
-    (if (negative-dimensions? new-weight)
-      1
-      0)))
+        new-weight (mapsack-weight new-mapsack)
+        delta (substract-from-dimensions limits new-weight)]
+    (max (reduce + (filter #(< 0 %) delta)) 0)))
 
 (defn possible-item-on-moves
   [items]
@@ -48,4 +45,9 @@
 
 (defn possible-item-off-moves
   [mapsack]
-  (map #(item-off-for %) (vals mapsack)))
+  (map #(item-off-for %) (vals mapsack)))  
+
+(defn heuristic
+  [mapsack move alpha]
+  (- (objective mapsack move)
+     (* (penalty mapsack move) alpha)))

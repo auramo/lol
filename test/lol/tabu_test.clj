@@ -37,12 +37,18 @@
 
 (deftest test-objective
   (let [item1 {:id "1" :value 1}
+        item2 {:id "2" :value 2}
         item5 {:id "5" :value 10}
-        mapsack {(:id item1) item1 "2" {:value 2} "3" {:value 3} "4" {:value 4}}]    
+        item6 {:id "6" :value 7}
+        mapsack {(:id item1) item1 "2" {:value 2} "3" {:value 3} "4" {:value 4}}] 
     (is (= (objective mapsack (item-on-for item5))
-           1))
-    (is (= (objective mapsack (item-off-for item5))
-           0))))
+           10))
+    (is (= (objective mapsack (item-on-for item6))
+           7))
+    (is (= (objective mapsack (item-off-for item1))
+           -1))
+    (is (= (objective mapsack (item-off-for item2))
+           -2))))
 
 (deftest test-mapsack-weight
   (let [mapsack1 {"1" {:id "1" :weight [1 1]} "2" {:weight [2 2]} "3" {:weight [3 3]} "4" {:weight [4 4]}}
@@ -55,10 +61,13 @@
 (deftest test-penalty
   (let [item1 {:id "1" :weight [1 1]}
         item5 {:id "5" :weight [5 5]}
+        item6 {:id "6" :weight [2 5]}
         limits [12 12]
         mapsack {(:id item1) item1 "2" {:weight [2 2]} "3" {:weight [3 3]} "4" {:weight [4 4]}}]
     (is (= (penalty mapsack limits (item-on-for item5))
-           1))
+           6))
+    (is (= (penalty mapsack limits (item-on-for item6))
+           3))
     (is (= (penalty mapsack limits (item-off-for item1))
            0))))
 
@@ -77,7 +86,3 @@
            [{"2" {:id "2"} "3" {:id "3"}}
             {"1" {:id "1"} "3" {:id "3"}}
             {"1" {:id "1"} "2" {:id "2"}}]))))
-
-
-           
-            
