@@ -1,13 +1,14 @@
 (ns lol.runner
   (:use [lol.util]
-    [lol.randomalgorithm])
+    [lol.algorithm]
+    [lol.agent])
   (:require [org.danlarkin.json :as json]))
 
 (defn run-one-challenge
   [round challenge]
   (let [items (:contents challenge)
         limits (:capacity challenge)
-        result (greedy-algorithm items limits)
+        result (run-algorithm (agent []) greedy-algorithm challenge)
         value (knapsack-value result)
         weight (summed-weight result)]
     (result-str round challenge value weight limits)))
