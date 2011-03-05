@@ -20,12 +20,16 @@
   [round challenge value weight limits]
   (str round ": " (:name challenge)  " value: [" value "] weight: [" (reduce (fn [a b] (str a ", " b)) weight) "]" " limits: " limits))
 
+(defn knapsack-whole-value
+  [knapsack]
+  (reduce + (map #(:value %) knapsack)))
+
 (defn run-one-challenge 
   [round challenge]
   (let [items (:contents challenge)
         limits (:capacity challenge)
         result (greedy-algorithm items limits)
-        value (reduce + (map #(:value %) result))
+        value (knapsack-whole-value result)
         weight (summed-weight result)]
     (result-str round challenge value weight limits)))
 
