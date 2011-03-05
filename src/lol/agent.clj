@@ -27,4 +27,5 @@
         timeout (:timeout json)
         worker (calculate knapsack-agent algorithm items limits)]
     (await-for (- timeout 2000) worker)
+    (await knapsack-agent)
     @knapsack-agent))
