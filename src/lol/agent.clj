@@ -20,3 +20,11 @@
   (let [worker (agent [])]
     (send worker (fn [x] (update-knapsack knapsack-agent (algorithm items limits))))))
 
+(defn run-algorithm
+  [knapsack-agent algorithm json]
+  (let [limits (:capacity json)
+        items (:contents json)
+        timeout (:timeout json)
+        worker (calculate knapsack-agent algorithm items limits)]
+    (await-for (- timeout 2000) worker)
+    @knapsack-agent))
