@@ -22,7 +22,7 @@
 (defn relative-value
   [item]
   (let [dimensions (dimensions-of-item item)
-        dimsum (reduce #(+ %1 %2) dimensions)
+        dimsum (reduce + dimensions)
         value (:value item)]
     (/ value dimsum)))
 
