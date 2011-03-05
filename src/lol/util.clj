@@ -1,10 +1,17 @@
 (ns lol.util
-  (:use [lol.algorithm])
   (:require [org.danlarkin.json :as json]))
 
 (defn weight-of-item
   [item]
   (:weight item))
+
+(defn negative-dimensions?
+  [dimensions]
+  (some (fn [x] (< x 0)) dimensions))
+
+(defn substract-from-dimensions
+  [dimensions from]
+  (map (fn [pair] (- (first pair) (last pair))) (map list from dimensions)))
 
 (defn summed-weight
   [items]

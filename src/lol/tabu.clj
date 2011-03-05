@@ -21,10 +21,24 @@
   [mapsack]
   (knapsack-value (vals mapsack)))
 
+(defn mapsack-weight
+  [mapsack]
+  (summed-weight (vals mapsack)))
+
 (defn objective
-   [mapsack move]
-   (let [new-mapsack (move mapsack)]
-     (if (> (mapsack-value new-mapsack)
-            (mapsack-value mapsack))
-       1
-       0)))
+  [mapsack move]
+  (let [new-mapsack (move mapsack)]
+    (if (> (mapsack-value new-mapsack)
+           (mapsack-value mapsack))
+      1
+      0)))
+
+(defn penalty
+  [mapsack limits move]
+  (let [new-mapsack (move mapsack)
+        weight (mapsack-weight new-mapsack)
+        new-weight (substract-from-dimensions weight limits)]
+    (if (negative-dimensions? new-weight)
+      1
+      0)))
+      

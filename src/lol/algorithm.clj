@@ -1,4 +1,6 @@
-(ns lol.algorithm (:use [clojure.contrib.math]))
+(ns lol.algorithm
+  (:use [clojure.contrib.math]
+        [lol.util]))
 
 (defn dimensions-of-item
   [item]
@@ -6,7 +8,7 @@
 
 (defn substract-from-limits
   [item limits]
-  (map (fn [pair] (- (first pair) (last pair))) (map list limits (dimensions-of-item item))))
+  (substract-from-dimensions (dimensions-of-item item) limits))
 
 (defn fill-knapsack
   ([items limits] (fill-knapsack items limits []))
@@ -15,7 +17,7 @@
        knapsack
        (let [item (first items)
              new-limits (substract-from-limits item limits)]
-         (if (some (fn [x] (< x 0)) new-limits)
+         (if (negative-dimensions? new-limits)
            (recur (rest items) limits knapsack)
            (recur (rest items) new-limits (cons item knapsack)))))))
 
