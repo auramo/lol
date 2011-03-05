@@ -4,8 +4,8 @@
 (def *randomize-percent* 30)
 
 (defn get-tries
-  [knapsack]
-  (int (* (count knapsack) (/ *randomize-percent* 100))))
+  [items]
+  (int (* (count items) (/ *randomize-percent* 100))))
 
 (defn scaled-int-random
   [scale]
@@ -55,7 +55,7 @@
 (defn random-algorithm
   [items limits]
   (let [greedy-knapsack  (greedy-algorithm items limits)
-        tries (get-tries greedy-knapsack)]
+        tries (get-tries items)]
     (randomly-try-changing-items greedy-knapsack (limits-after-base-run greedy-knapsack limits) items tries)))
 
     
