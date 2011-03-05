@@ -3,7 +3,7 @@
     [ring.adapter.jetty :only [run-jetty]]
     [clojure.contrib.duck-streams :only [slurp* reader]]
     [lol.algorithm]
-    [lol.util]
+    [lol.runner]
     [lol.agent])
   (:require [org.danlarkin.json :as json])
   (:gen-class))
