@@ -56,6 +56,6 @@
   [items limits]
   (let [greedy-knapsack  (greedy-algorithm items limits)
         tries (get-tries greedy-knapsack)]
-    (randomly-try-changing-items greedy-knapsack (limits-after-base-run greedy-knapsack) items tries)))
+    (randomly-try-changing-items greedy-knapsack (limits-after-base-run greedy-knapsack limits) items tries)))
 
     
