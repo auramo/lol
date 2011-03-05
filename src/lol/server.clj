@@ -24,18 +24,20 @@
   [results]
   (reduce (fn [a b] (str a "\n\n" b )) (map (fn [n] (reduce #(str %1 "\n" %2) n)) results)))
 
+(defn ok-response
+  ([body] (ok-response body "application-json"))
+  ([body content-type]
+    {:status 200
+     :headers {"Content-Type" content-type}
+     :body body}))
+
 (defn app [req]
-  (let [knapsack-agent (agent [])]
-    (if (= "/test" (:uri req))
-      (let [body (results-as-string (run-rounds))]
-        {:status  200
-         :headers {"Content-Type" "text/plain"}
-         :body    body})
-      (let [json (parse-json-str (input-as-str req))
-            body (encode-to-json-str (items-to-id-list (run-algorithm knapsack-agent greedy-algorithm json)))]
-        {:status  200
-         :headers {"Content-Type" "application/json"}
-         :body    body}))))
+  (if (= "/test" (:uri req))
+    (let [body (results-as-string (run-rounds))]
+      (ok-response body "text/plain"))
+    (let [json (parse-json-str (input-as-str req))
+          body (items-to-id-list (run-algorithms [greedy-algorithm] json))]
+      (ok-response (encode-to-json-str body)))))
 
 (defn -main
   ([] (-main 9000))

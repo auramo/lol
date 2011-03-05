@@ -8,7 +8,7 @@
   [round challenge]
   (let [items (:contents challenge)
         limits (:capacity challenge)
-        result (run-algorithm (agent []) greedy-algorithm challenge)
+        result (run-algorithms [greedy-algorithm] challenge)
         value (knapsack-value result)
         weight (summed-weight result)]
     (result-str round challenge value weight limits)))

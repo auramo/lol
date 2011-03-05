@@ -23,9 +23,14 @@
 (defn run-algorithm
   [knapsack-agent algorithm json]
   (let [limits (:capacity json)
-        items (:contents json)
-        timeout (:timeout json)
-        worker (calculate knapsack-agent algorithm items limits)]
-    (await-for (- timeout 2000) worker)
+        items (:contents json)]
+    (calculate knapsack-agent algorithm items limits)))
+
+(defn run-algorithms
+  [algorithms json]
+  (let [knapsack-agent (agent [])
+        agents (map #(run-algorithm knapsack-agent % json) algorithms)
+        timeout (:timeout json)]
+    (apply await-for (- timeout 2000) agents)
     (await knapsack-agent)
     @knapsack-agent))
