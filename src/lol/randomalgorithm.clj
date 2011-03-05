@@ -5,7 +5,7 @@
 
 (defn get-tries
   [knapsack]
-  (* (count knapsack) (/ *randomize-percent* 100)))
+  (int (* (count knapsack) (/ *randomize-percent* 100))))
 
 (defn scaled-int-random
   [scale]
@@ -25,7 +25,7 @@
 
 (defn remove-random-item
   [knapsack]
-  (remove-item knapsack (random-item-from-knapsack)))
+  (remove-item knapsack (random-item-from-knapsack knapsack)))
   
 (defn random-item-from-items
  [items]
@@ -37,16 +37,17 @@
     (cons (random-item-from-items items) knapsack-with-random-item-removed)))
 
 (defn randomly-try-changing-items
-  [knapsack limits tries-left]
+  [knapsack limits items tries-left]
   (if (= 0 tries-left)
-    knapsack
-    (let [new-knapsack (swap-random-item knapsack)]
+        knapsack
+    (let [new-knapsack (swap-random-item knapsack items)]
       (if (> (knapsack-value new-knapsack) (knapsack-value knapsack))
-        (recur new-knapsack limits (dec tries-left))
-        (recur knapsack limits (dec tries-left))))))
+        (recur new-knapsack limits items (dec tries-left))
+        (recur knapsack limits items (dec tries-left))))))
     
 (defn random-algorithm
   [items limits]
-  (let [greedy-knapsack  (greedy-algorithm items limits)]
-    (randomly-try-changing-items(greedy-knapsack limits (get-tries(greedy-knapsack))))))
+  (let [greedy-knapsack  (greedy-algorithm items limits)
+        tries (get-tries greedy-knapsack)]
+    (randomly-try-changing-items greedy-knapsack limits items tries)))
     
