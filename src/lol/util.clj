@@ -1,5 +1,6 @@
 (ns lol.util
-  (:use [lol.algorithm])
+  (:use [lol.algorithm]
+    [lol.agent])
   (:require [org.danlarkin.json :as json]))
 
 (defn weight-of-item
@@ -9,12 +10,12 @@
 (defn summed-weight
   [items]
   (map
-   (fn [i] (reduce + i))
-   (map
-    #(flatten %)
-    (reduce
-     (fn [left right] (map list left right))
-     (map #(weight-of-item %) items)))))
+    (fn [i] (reduce + i))
+    (map
+      #(flatten %)
+      (reduce
+        (fn [left right] (map list left right))
+        (map #(weight-of-item %) items)))))
 
 (defn result-str
   [round challenge value weight limits]
@@ -23,6 +24,16 @@
 (defn knapsack-value
   [knapsack]
   (reduce + (map #(:value %) knapsack)))
+
+(defn run-algorithm
+  [knapsack-agent algorithm json]
+  (let [limits (:capacity json)
+        items (:contents json)
+        timeout (:timeout json)
+        worker (calculate knapsack-agent algorithm items limits)]
+    (await-for (- timeout 2000) worker)
+    (println (count @knapsack-agent))
+    @knapsack-agent))
 
 (defn run-one-challenge 
   [round challenge]

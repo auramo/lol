@@ -1,11 +1,9 @@
 (ns lol.agent
   (:use [lol.util]))
 
-(def knapsack (agent []))
-
 (defn clear-knapsack
-  []
-  (send knapsack (fn [x] [])))
+  [knapsack-agent]
+  (send knapsack-agent (fn [x] [])))
 
 (defn max-knapsack
   [current candidate]
@@ -14,11 +12,11 @@
     candidate))
 
 (defn update-knapsack
-  [candidate]
-  (send knapsack max-knapsack candidate))
+  [knapsack-agent candidate]
+  (send knapsack-agent max-knapsack candidate))
 
 (defn calculate
-  [algorithm items limits]
+  [knapsack-agent algorithm items limits]
   (let [worker (agent [])]
-    (send worker (fn [x] (update-knapsack (algorithm items limits))))))
+    (send worker (fn [x] (update-knapsack knapsack-agent (algorithm items limits))))))
 

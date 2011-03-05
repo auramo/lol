@@ -20,32 +20,22 @@
   [structure]
   (json/encode structure))
 
-(defn run-algorithm
-  [algorithm json]
-  (let [limits (:capacity json)
-        items (:contents json)
-        timeout (:timeout json)
-        worker (calculate algorithm items limits)]
-    (await-for (- timeout 2000) worker))
-  @knapsack)
-
 (defn results-as-string
   [results]
   (reduce (fn [a b] (str a "\n\n" b )) (map (fn [n] (reduce #(str %1 "\n" %2) n)) results)))
 
 (defn app [req]
-  (if (= "/test" (:uri req))
-    (let [body (results-as-string (run-rounds))]
-      (await (clear-knapsack))
-      {:status  200
-       :headers {"Content-Type" "text/plain"}
-       :body    body})
-    (let [json (parse-json-str (input-as-str req))
-          body (encode-to-json-str (items-to-id-list (run-algorithm greedy-algorithm json)))]
-      (await (clear-knapsack))
-      {:status  200
-       :headers {"Content-Type" "application/json"}
-       :body    body})))
+  (let [knapsack-agent (agent [])]
+    (if (= "/test" (:uri req))
+      (let [body (results-as-string (run-rounds))]
+        {:status  200
+         :headers {"Content-Type" "text/plain"}
+         :body    body})
+      (let [json (parse-json-str (input-as-str req))
+            body (encode-to-json-str (items-to-id-list (run-algorithm knapsack-agent greedy-algorithm json)))]
+        {:status  200
+         :headers {"Content-Type" "application/json"}
+         :body    body}))))
 
 (defn -main
   ([] (-main 9000))
