@@ -41,4 +41,11 @@
     (if (negative-dimensions? new-weight)
       1
       0)))
-      
+
+(defn possible-item-on-moves
+  [items]
+  (map item-on-for items))
+
+(defn possible-item-off-moves
+  [mapsack]
+  (map #(item-off-for %) (vals mapsack)))

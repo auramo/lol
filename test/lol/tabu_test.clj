@@ -61,3 +61,23 @@
            1))
     (is (= (penalty mapsack limits (item-off-for item1))
            0))))
+
+(deftest test-possible-item-on-moves
+  (let [items [{:id "1"} {:id "2"}]
+        mapsack {"4" {:id "4"}}
+        moves (possible-item-on-moves items)]
+    (is (= (map #(% mapsack) moves)
+           [{"1" {:id "1"} "4" {:id "4"}}
+            {"2" {:id "2"} "4" {:id "4"}}]))))
+
+(deftest test-possible-item-off-moves
+  (let [mapsack {"1" {:id "1"} "2" {:id "2"} "3" {:id "3"}}
+        moves (possible-item-off-moves mapsack)]
+    (is (= (map #(% mapsack) moves)
+           [{"2" {:id "2"} "3" {:id "3"}}
+            {"1" {:id "1"} "3" {:id "3"}}
+            {"1" {:id "1"} "2" {:id "2"}}]))))
+
+
+           
+            
