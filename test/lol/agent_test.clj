@@ -2,10 +2,6 @@
   (:use [clojure.test]
     [lol.agent]))
 
-(deftest test-knapsack-value
-  (let [items [{:value 12} {:value 2} {:value 3}]]
-    (is (= 17 (knapsack-value items)))))
-
 (deftest test-max-knapsack
   (let [candidate [{:value 5} {:value 2} {:value 3}]]
     (is (= candidate (max-knapsack [] candidate))))
