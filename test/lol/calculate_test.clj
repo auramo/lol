@@ -1,13 +1,13 @@
-(ns lol.agent-test
+(ns lol.calculate-test
   (:use [clojure.test]
-    [lol.agent]))
+    [lol.calculate]))
 
-(deftest test-max-knapsack
+(deftest test-max-result
   (let [candidate [{:value 5} {:value 2} {:value 3}]]
-    (is (= candidate (max-knapsack [] candidate))))
+    (is (= candidate (max-result [] candidate))))
   (let [current [{:value 12} {:value 2} {:value 3}]
         candidate [{:value 5} {:value 2} {:value 3}]]
-    (is (= current (max-knapsack current candidate))))
+    (is (= current (max-result current candidate))))
   (let [current [{:value 1} {:value 2} {:value 3}]
         candidate [{:value 5} {:value 2} {:value 3}]]
-    (is (= candidate (max-knapsack current candidate)))))
+    (is (= candidate (max-result current candidate)))))

@@ -5,7 +5,7 @@
     [lol.algorithm]
     [lol.randomalgorithm]
     [lol.runner]
-    [lol.agent])
+    [lol.calculate])
   (:require [org.danlarkin.json :as json])
   (:gen-class))
 

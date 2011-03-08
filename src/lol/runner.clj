@@ -1,7 +1,7 @@
 (ns lol.runner
   (:use [lol.util]
     [lol.algorithm]
-    [lol.agent])
+    [lol.calculate])
   (:require [org.danlarkin.json :as json]))
 
 (defn run-one-challenge
