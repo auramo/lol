@@ -18,23 +18,19 @@
 (defn remove-item
   [knapsack toremove]
   (remove #(= (:id %) (:id toremove)) knapsack))
-
-(defn random-item-from-knapsack
-  [knapsack]
-   (get knapsack (random-index knapsack)))
+  
+(defn get-random-item
+ [items]
+ (nth items (random-index items)))
 
 (defn remove-random-item
   [knapsack]
-  (remove-item knapsack (random-item-from-knapsack knapsack)))
-  
-(defn random-item-from-items
- [items]
- (get items (random-index items)))
+  (remove-item knapsack (get-random-item knapsack)))
 
 (defn swap-random-item
   [knapsack items]
   (let [knapsack-with-random-item-removed (remove-random-item knapsack)
-        new-random-item (random-item-from-items items)]
+        new-random-item (get-random-item items)]
     (cons new-random-item knapsack-with-random-item-removed)))
 
 (defn limits-after-base-run
