@@ -46,11 +46,13 @@
   (if (= 0 tries-left)
         knapsack
         (let [new-knapsack (swap-random-item knapsack items)
-              new-limits (substract-from-limits (first new-knapsack) limits)]
+              new-random-item (first new-knapsack)
+              new-items (remove-item items new-random-item)
+              new-limits (substract-from-limits new-random-item limits)]
           (if (and (> (knapsack-value new-knapsack) (knapsack-value knapsack))
                    (not (some (fn [x] (< x 0)) new-limits)))
-        (recur new-knapsack new-limits items (dec tries-left))
-        (recur knapsack limits items (dec tries-left))))))
+        (recur new-knapsack new-limits new-items (dec tries-left))
+        (recur knapsack limits new-items (dec tries-left))))))
     
 (defn random-algorithm
   [items limits]
