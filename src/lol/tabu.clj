@@ -47,7 +47,12 @@
   [mapsack]
   (map #(item-off-for %) (vals mapsack)))  
 
-(defn heuristic
-  [mapsack move alpha]
-  (- (objective mapsack move)
-     (* (penalty mapsack move) alpha)))
+(defn possible-moves
+  [mapsack items]
+  (conj (possible-item-on-moves items) (possible-item-off-moves mapsack)))
+
+(defn heuristic-function
+  [objective penalty]
+  (fn [mapsack move alpha]
+    (- (objective mapsack move)
+       (* (penalty mapsack move) alpha))))

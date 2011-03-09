@@ -86,3 +86,12 @@
            [{"2" {:id "2"} "3" {:id "3"}}
             {"1" {:id "1"} "3" {:id "3"}}
             {"1" {:id "1"} "2" {:id "2"}}]))))
+
+(defn f-ret
+  [x]
+  (fn [a b] (if true x)))
+
+(deftest test-heuristic-function
+  (let [heuristic (heuristic-function (f-ret 2) (f-ret 1))]
+    (is (= (heuristic {} {} 1)
+           1))))
